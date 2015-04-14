@@ -1,0 +1,106 @@
+Bitacora Proyecto RNAseq de latex 2015
+
+#################
+#	23.03.2015	#
+#################
+
+Se inicio el preprocesamiento de los datos usando trimmomtic para realizar el trimming 
+por calidad y eliminar las primeras 9pb de cada lectura. Se ejecuto el siguiente script:
+
+for k in s1 s2 s3 s4 s5 s6 s7a s7b s8a s8b s9a s9b s10a s10b s11a s11b s12a s12b s13a s13b s14a s14b s15a s15b s16a s16b s17a s17b s18a s18b; do java -jar ~/Bin/trimmomatic-0.32.jar PE -threads 16 $k\r1.fq $k\r2.fq $k\r1_P.fq $k\r1_U.fq $k\r2_P.fq $k\r2_U.fq ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 HEADCROP:12 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:25 MINLEN:37 2>> trimmomatic.log; done &
+
+En el archivo trimmomatic.log se almacena toda la informacion generada por este programa.
+
+Goto!
+#################
+#	27.03.2015	#
+#################
+
+De acuerdo al analisis de calidad elaborado con la herramienta fastqc nos dimos cuenta que
+se incremento considerablemente la calidad. Sin embargo Existe una anomala sobre-expresion de kmers al
+final de las lecturas, 
+
+Goto!
+#################
+#	30.03.2015	#
+#################
+
+Para todos los archivos generados por trimmomatic es decir: los pareados tanto forward como 
+reverse: 1P y 2P asi como los huerfanos: 1U y 2U; se los filtro por ribosomales utilizando la
+la herramienta ribopicker, y los scripts:
+
+for k in s1r1 s7ar1 s10ar1 s13ar1; do ribopicker.pl -f ./$k\_P.fq -id  $k\_P.rbpkr; done &
+for k in s2r1 s7br1 s10br1 s13br1; do ribopicker.pl -f ./$k\_P.fq -id  $k\_P.rbpkr; done &
+for k in s3r1 s8ar1 s11ar1 s14ar1; do ribopicker.pl -f ./$k\_P.fq -id  $k\_P.rbpkr; done &
+for k in s4r1 s8br1 s11br1 s14br1; do ribopicker.pl -f ./$k\_P.fq -id  $k\_P.rbpkr; done &
+for k in s5r1 s9ar1 s12ar1 s15ar1; do ribopicker.pl -f ./$k\_P.fq -id  $k\_P.rbpkr; done &
+for k in s6r1 s9br1 s12br1 s15br1; do ribopicker.pl -f ./$k\_P.fq -id  $k\_P.rbpkr; done &
+
+for k in s16ar1 s16br1 s17ar1 s17br1 s18ar1 s18br1; do ribopicker.pl -f ./$k\_P.fq -id  $k\_P.rbpkr; done &
+
+for k in s1r2 s7ar2 s10ar2 s13ar2; do ribopicker.pl -f ./$k\_P.fq -id  $k\_P.rbpkr; done &
+for k in s2r2 s7br2 s10br2 s13br2; do ribopicker.pl -f ./$k\_P.fq -id  $k\_P.rbpkr; done &
+for k in s3r2 s8ar2 s11ar2 s14ar2; do ribopicker.pl -f ./$k\_P.fq -id  $k\_P.rbpkr; done &
+for k in s4r2 s8br2 s11br2 s14br2; do ribopicker.pl -f ./$k\_P.fq -id  $k\_P.rbpkr; done &
+for k in s5r2 s9ar2 s12ar2 s15ar2; do ribopicker.pl -f ./$k\_P.fq -id  $k\_P.rbpkr; done &
+for k in s6r2 s9br2 s12br2 s15br2; do ribopicker.pl -f ./$k\_P.fq -id  $k\_P.rbpkr; done &
+
+for k in s16ar2 s16br2 s17ar2 s17br2 s18ar2 s18br2; do ribopicker.pl -f ./$k\_P.fq -id  $k\_P.rbpkr 2>>ribopicker.log; done &
+
+
+for k in s1r1 s3r1 s5r1 s7ar1 s8ar1 s9ar1 s10ar1 s11ar1 s12ar1 s13ar1 s14ar1 s15ar1 s16ar1 s17ar1 s18ar1; do ribopicker.pl -f ./$k\_U.fq -id  $k\_U.rbpkr; done &
+for k in s2r1 s4r1 s6r1 s7br1 s8br1 s9br1 s10br1 s11br1 s12br1 s13br1 s14br1 s15br1 s16br1 s17br1 s18br1; do ribopicker.pl -f ./$k\_U.fq -id  $k\_U.rbpkr; done &
+
+for k in s1r2 s3r2 s5r2 s7ar2 s8ar2 s9ar2 s10ar2 s11ar2 s12ar2 s13ar2 s14ar2 s15ar2 s16ar2 s17ar2 s18ar2; do ribopicker.pl -f ./$k\_U.fq -id  $k\_U.rbpkr; done &
+for k in s2r2 s4r2 s6r2 s7br2 s8br2 s9br2 s10br2 s11br2 s12br2 s13br2 s14br2 s15br2 s16br2 s17br2 s18br2; do ribopicker.pl -f ./$k\_U.fq -id  $k\_U.rbpkr; done &
+
+Goto!
+#################
+#	31.03.2015	#
+#################
+
+Para Corregir el desbalance de secuencias generado por ribopicker a los archivos pareados 1P y 2P
+se decidio correr otra vez trimmomatic, al menos en prueba para la libreria 10 con el siguiente script:
+
+java -jar ~/Bin/trimmomatic-0.32.jar PE  s10G_1P.rbpkr_nonrrna.fq s10G_2P.rbpkr_nonrrna.fq s10G_1P.rbpkr_nonrrna_P.fq 1P.rbpkr_nonrrna_U.fq s10G_2P.rbpkr_nonrrna_P.fq s10G_2P.rbpkr_nonrrna_U.fq &
+
+A demas de balancear las secuencias. El resultado fue
+todo un exito, se generaron nuevamente los archivos pareados balanceados y nuevos archivos 
+huerfanos los cuales van a ser concatenados con los anteriores para usos posteriores.
+
+Se probo quitar la sobre-expresion anomala de kmers al final pero no fue exitosa, Sin embargo
+no creo que sea mucho el sesgo que esto introduzca en los ensamblajes posteriores.  
+
+Para dejar a punto todos los archivos... se ejecuto trimmomatic con los siguientes scripts:
+
+for k in s1 s2 s3 s4 s5 s6 s7a s7b s8a s8b s9a s9b s10a s10b s11a s11b s12a s12b s13a s13b s14a s14b s15a s15b s16a s16b s17a s17b s18a s18b; do java -jar ~/Bin/trimmomatic-0.32.jar PE -threads 16 $k\r1_P.rbpkr_nonrrna.fq $k\r2_P.rbpkr_nonrrna.fq $k\F.fq $k\F_U.fq $k\R.fq $k\R_U.fq MINLEN:37; done &
+
+Luego se concatenaron los huerfanos con el comando cat:
+
+cat archivo1 archivo2 > archivo3:
+
+for k in s1 s2 s3 s4 s5 s6 s7a s7b s8a s8b s9a s9b s10a s10b s11a s11b s12a s12b s13a s13b s14a s14b s15a s15b s16a s16b s17a s17b s18a s18b; do cat $k\F_U.fq $k\r1_U.rbpkr_nonrrna.fq > $k\Fu.fq && cat $k\R_U.fq $k\r2_U.rbpkr_nonrrna.fq > $k\Ru.fq && cat $k\r1_P.rbpkr_rrna.fq $k\r1_U.rbpkr_rrna.fq > $k\Frrna.fq && cat $k\r2_P.rbpkr_rrna.fq $k\r2_U.rbpkr_rrna.fq > $k\Rrrna.fq; done &
+
+Goto!
+#################
+#	04.04.2015	#
+#################
+
+Con los datos pareados se realizara el ensamblaje utilizando la herramienta trans-abyss.
+Para esto se crea la carpeta "4.4.2015.assembling" dentro de la carpeta "results".
+Se ejecuta el siguiente script:
+
+
+
+Goto!
+#################
+#		#
+#################
+
+#################
+#		#
+#################
+
+#################
+#		#
+#################
