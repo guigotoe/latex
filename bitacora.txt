@@ -90,13 +90,57 @@ Con los datos pareados se realizara el ensamblaje utilizando la herramienta tran
 Para esto se crea la carpeta "4.4.2015.assembling" dentro de la carpeta "results".
 Se ejecuta el siguiente script:
 
+Goto!
+#################################
+#	14.04.2015 - 17.04.2015	#
+################################
+By inconvenients with the assembler transabyss, the name of the file have to ends with 1 for forward reads and 2 for reverse reads. So then i use the next 
+script to change all the names:
 
+for k in s1 s2 s3 s4 s5 s6 s7a s7b s8a s8b s9a s9b s10a s10b s11a s11b s12a s12b s13a s13b s14a s14b s15a s15b s16a s16b s17a s17b s18a s18b; do mv $k\F.fq $k\_1.fq; done
+for k in s1 s2 s3 s4 s5 s6 s7a s7b s8a s8b s9a s9b s10a s10b s11a s11b s12a s12b s13a s13b s14a s14b s15a s15b s16a s16b s17a s17b s18a s18b; do mv $k\R.fq $k\_2.fq; done
+
+Launching proofs of assembling... using the smallest libraries... just for the proof!!
+
+1,6G Apr  4 07:27 s13aF_1.fq
+1,6G Apr  4 07:27 s13aR_2.fq
+1,6G Apr  4 07:28 s13bF_1.fq
+1,5G Apr  4 07:28 s13bR_2.fq
+
+transabyss --se /media/CurrentProjects/latex2015/data/s13a1.fq /media/CurrentProjects/latex2015/data/s13a2.fq --pe /media/CurrentProjects/latex2015/data/s13a1.fq /media/CurrentProjects/latex2015/data/s13a2.fq --name test_se_pe --kmer 37 --threads 4 -c 5 --outdir test_se_pe 2>&1 | tee test_se_pe.log &
+
+
+transabyss --pe /media/CurrentProjects/latex2015/data/s13a1.fq /media/CurrentProjects/latex2015/data/s13a2.fq --name test_pe --kmer 37 --threads 4 -c 5 --outdir test_pe 2>&1 | tee test_pe.log &
+
+
+abyss-pe k=37 name=test_abyss_pe -n 5 -j 4 in='/media/CurrentProjects/latex2015/data/s13a1.fq /media/CurrentProjects/latex2015/data/s13a2.fq' 2>&1 | tee test_abyss_pe.log &
+
+
+transabyss --pe /media/CurrentProjects/latex2015/data/s13aF_1.fq /media/CurrentProjects/latex2015/data/s13aR_2.fq /media/CurrentProjects/latex2015/data/s13bF_1.fq /media/CurrentProjects/latex2015/data/s13bR_2.fq --name test1 --kmer 37 --threads 12 -c 5 2>&1 | tee test1.log
+
+
+At the endo of all the proofs, i can realitze that transabyss at the begining just make an assembling with abyss and that's it for now... later do the analysis... the nex step. So for now
+i will use the abyss-pe command to do all the assemblings, this because i want to assure that uses the PED information. I will use the next command integrating all the libraries, and of course evaluating different kmers, I use large ones because we have lot of information and
+minimum coverage for unitigs of 10 -> it means that i need at least a coverage of 10 (10reads) to support a contig
+
+for k in 47 49 51 53 57 59 61 65 69 73; do mkdir k$k ; cd k$k ; abyss-pe k=$k name=aby_$k n=5 j=14 e=3 c=10 lib='pe1 pe2 pe3 pe4 pe5 pe6 pe7a pe7b pe8a pe8b pe9a pe9b pe10a pe10b pe11a pe12a p12b pe13a pe13b pe14a pe14b pe15a pe15b pe16a pe16b pe17a pe17b pe18a pe18b' pe1='/media/CurrentProjects/latex2015/data/s1_1.fq /media/CurrentProjects/latex2015/data/s1_2.fq' pe2='/media/CurrentProjects/latex2015/data/s2_1.fq /media/CurrentProjects/latex2015/data/s2_2.fq' \
+  pe3='/media/CurrentProjects/latex2015/data/s3_1.fq /media/CurrentProjects/latex2015/data/s3_2.fq' pe4='/media/CurrentProjects/latex2015/data/s4_1.fq /media/CurrentProjects/latex2015/data/s4_2.fq' \
+  pe5='/media/CurrentProjects/latex2015/data/s5_1.fq /media/CurrentProjects/latex2015/data/s5_2.fq' pe6='/media/CurrentProjects/latex2015/data/s6_1.fq /media/CurrentProjects/latex2015/data/s6_2.fq' \
+  pe7a='/media/CurrentProjects/latex2015/data/s7a_1.fq /media/CurrentProjects/latex2015/data/s7a_2.fq' pe7b='/media/CurrentProjects/latex2015/data/s7b_1.fq /media/CurrentProjects/latex2015/data/s7b_2.fq' \
+  pe8a='/media/CurrentProjects/latex2015/data/s8a_1.fq /media/CurrentProjects/latex2015/data/s8a_2.fq' pe8b='/media/CurrentProjects/latex2015/data/s8b_1.fq /media/CurrentProjects/latex2015/data/s8b_2.fq' \
+  pe9a='/media/CurrentProjects/latex2015/data/s9a_1.fq /media/CurrentProjects/latex2015/data/s9a_2.fq' pe9b='/media/CurrentProjects/latex2015/data/s9b_1.fq /media/CurrentProjects/latex2015/data/s9b_2.fq' \
+  pe10a='/media/CurrentProjects/latex2015/data/s10a_1.fq /media/CurrentProjects/latex2015/data/s10a_2.fq' pe10b='/media/CurrentProjects/latex2015/data/s10b_1.fq /media/CurrentProjects/latex2015/data/s10b_2.fq' \
+  pe11a='/media/CurrentProjects/latex2015/data/s11a_1.fq /media/CurrentProjects/latex2015/data/s11a_2.fq' pe11b='/media/CurrentProjects/latex2015/data/s11b_1.fq /media/CurrentProjects/latex2015/data/s11b_2.fq' \
+  pe12a='/media/CurrentProjects/latex2015/data/s12a_1.fq /media/CurrentProjects/latex2015/data/s12a_2.fq' pe12b='/media/CurrentProjects/latex2015/data/s12b_1.fq /media/CurrentProjects/latex2015/data/s12b_2.fq' \
+  pe13a='/media/CurrentProjects/latex2015/data/s13a_1.fq /media/CurrentProjects/latex2015/data/s13a_2.fq' pe13b='/media/CurrentProjects/latex2015/data/s13b_1.fq /media/CurrentProjects/latex2015/data/s13b_2.fq' \
+  pe14a='/media/CurrentProjects/latex2015/data/s14a_1.fq /media/CurrentProjects/latex2015/data/s14a_2.fq' pe14b='/media/CurrentProjects/latex2015/data/s14b_1.fq /media/CurrentProjects/latex2015/data/s14b_2.fq' \
+  pe15a='/media/CurrentProjects/latex2015/data/s15a_1.fq /media/CurrentProjects/latex2015/data/s15a_2.fq' pe15b='/media/CurrentProjects/latex2015/data/s15b_1.fq /media/CurrentProjects/latex2015/data/s15b_2.fq' \
+  pe16a='/media/CurrentProjects/latex2015/data/s16a_1.fq /media/CurrentProjects/latex2015/data/s16a_2.fq' pe16b='/media/CurrentProjects/latex2015/data/s16b_1.fq /media/CurrentProjects/latex2015/data/s16b_2.fq' \
+  pe17a='/media/CurrentProjects/latex2015/data/s17a_1.fq /media/CurrentProjects/latex2015/data/s17a_2.fq' pe17b='/media/CurrentProjects/latex2015/data/s17b_1.fq /media/CurrentProjects/latex2015/data/s17b_2.fq' \
+  pe18a='/media/CurrentProjects/latex2015/data/s18a_1.fq /media/CurrentProjects/latex2015/data/s18a_2.fq' pe18b='/media/CurrentProjects/latex2015/data/s18b_1.fq /media/CurrentProjects/latex2015/data/s18b_2.fq' 2>&1 | tee aby_$k\.log ; cd .. ; done &
+ 
 
 Goto!
-#################
-#		#
-#################
-
 #################
 #		#
 #################
