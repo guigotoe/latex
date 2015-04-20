@@ -118,12 +118,20 @@ abyss-pe k=37 name=test_abyss_pe -n 5 -j 4 in='/media/CurrentProjects/latex2015/
 
 transabyss --pe /media/CurrentProjects/latex2015/data/s13aF_1.fq /media/CurrentProjects/latex2015/data/s13aR_2.fq /media/CurrentProjects/latex2015/data/s13bF_1.fq /media/CurrentProjects/latex2015/data/s13bR_2.fq --name test1 --kmer 37 --threads 12 -c 5 2>&1 | tee test1.log
 
+Goto!
+#########################
+#	20.04.2015	#
+#########################
 
-At the endo of all the proofs, i can realitze that transabyss at the begining just make an assembling with abyss and that's it for now... later do the analysis... the nex step. So for now
+At the end of all proofs, i can realize that transabyss at the begining just make an assembling with abyss and that's it for now... later do the analysis... the nex step. So for now
 i will use the abyss-pe command to do all the assemblings, this because i want to assure that uses the PED information. I will use the next command integrating all the libraries, and of course evaluating different kmers, I use large ones because we have lot of information and
-minimum coverage for unitigs of 10 -> it means that i need at least a coverage of 10 (10reads) to support a contig
+minimum coverage for unitigs of 10 -> it means that i need at least a coverage of 10 (10reads) to support a contig:
 
-for k in 47 49 51 53 57 59 61 65 69 73; do mkdir k$k ; cd k$k ; abyss-pe k=$k name=aby_$k n=5 j=14 e=3 c=10 lib='pe1 pe2 pe3 pe4 pe5 pe6 pe7a pe7b pe8a pe8b pe9a pe9b pe10a pe10b pe11a pe12a p12b pe13a pe13b pe14a pe14b pe15a pe15b pe16a pe16b pe17a pe17b pe18a pe18b' pe1='/media/CurrentProjects/latex2015/data/s1_1.fq /media/CurrentProjects/latex2015/data/s1_2.fq' pe2='/media/CurrentProjects/latex2015/data/s2_1.fq /media/CurrentProjects/latex2015/data/s2_2.fq' \
+By the way, the folder in which the next script will be executed is: latex2015/results/4.4.2015.assembling/abyss/
+
+Just copy and paste the next script...
+
+for k in 47 49 51 53 57 59 61 65 69 73; do abyss-pe k=$k name=aby_$k n=5 j=14 e=3 c=10 lib='pe1 pe2 pe3 pe4 pe5 pe6 pe7a pe7b pe8a pe8b pe9a pe9b pe10a pe10b pe11a pe12a p12b pe13a pe13b pe14a pe14b pe15a pe15b pe16a pe16b pe17a pe17b pe18a pe18b' pe1='/media/CurrentProjects/latex2015/data/s1_1.fq /media/CurrentProjects/latex2015/data/s1_2.fq' pe2='/media/CurrentProjects/latex2015/data/s2_1.fq /media/CurrentProjects/latex2015/data/s2_2.fq' \
   pe3='/media/CurrentProjects/latex2015/data/s3_1.fq /media/CurrentProjects/latex2015/data/s3_2.fq' pe4='/media/CurrentProjects/latex2015/data/s4_1.fq /media/CurrentProjects/latex2015/data/s4_2.fq' \
   pe5='/media/CurrentProjects/latex2015/data/s5_1.fq /media/CurrentProjects/latex2015/data/s5_2.fq' pe6='/media/CurrentProjects/latex2015/data/s6_1.fq /media/CurrentProjects/latex2015/data/s6_2.fq' \
   pe7a='/media/CurrentProjects/latex2015/data/s7a_1.fq /media/CurrentProjects/latex2015/data/s7a_2.fq' pe7b='/media/CurrentProjects/latex2015/data/s7b_1.fq /media/CurrentProjects/latex2015/data/s7b_2.fq' \
@@ -137,14 +145,15 @@ for k in 47 49 51 53 57 59 61 65 69 73; do mkdir k$k ; cd k$k ; abyss-pe k=$k na
   pe15a='/media/CurrentProjects/latex2015/data/s15a_1.fq /media/CurrentProjects/latex2015/data/s15a_2.fq' pe15b='/media/CurrentProjects/latex2015/data/s15b_1.fq /media/CurrentProjects/latex2015/data/s15b_2.fq' \
   pe16a='/media/CurrentProjects/latex2015/data/s16a_1.fq /media/CurrentProjects/latex2015/data/s16a_2.fq' pe16b='/media/CurrentProjects/latex2015/data/s16b_1.fq /media/CurrentProjects/latex2015/data/s16b_2.fq' \
   pe17a='/media/CurrentProjects/latex2015/data/s17a_1.fq /media/CurrentProjects/latex2015/data/s17a_2.fq' pe17b='/media/CurrentProjects/latex2015/data/s17b_1.fq /media/CurrentProjects/latex2015/data/s17b_2.fq' \
-  pe18a='/media/CurrentProjects/latex2015/data/s18a_1.fq /media/CurrentProjects/latex2015/data/s18a_2.fq' pe18b='/media/CurrentProjects/latex2015/data/s18b_1.fq /media/CurrentProjects/latex2015/data/s18b_2.fq' 2>&1 | tee aby_$k\.log ; cd .. ; done &
+  pe18a='/media/CurrentProjects/latex2015/data/s18a_1.fq /media/CurrentProjects/latex2015/data/s18a_2.fq' pe18b='/media/CurrentProjects/latex2015/data/s18b_1.fq /media/CurrentProjects/latex2015/data/s18b_2.fq' 2>&1 | tee aby_$k\.log ; done &
  
 
 Goto!
-#################
+#########################
 #		#
-#################
+#########################
 
-#################
+
+#########################
 #		#
-#################
+#########################
