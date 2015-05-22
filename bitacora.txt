@@ -125,35 +125,88 @@ Goto!
 
 At the end of all proofs, i can realize that transabyss at the begining just make an assembling with abyss and that's it for now... later do the analysis... the nex step. So for now
 i will use the abyss-pe command to do all the assemblings, this because i want to assure that uses the PED information. I will use the next command integrating all the libraries, and of course evaluating different kmers, I use large ones because we have lot of information and
-minimum coverage for unitigs of 10 -> it means that i need at least a coverage of 10 (10reads) to support a contig:
+minimum coverage for unitigs of 10 -> it means that i need at least a coverage of 10 (10reads) to support a contig. Furthermore this scrips will use up to 14 cores specified by j=14 parameter.
 
-By the way, the folder in which the next script will be executed is: latex2015/results/4.4.2015.assembling/abyss/
+By the way, the folder in which the next script will be executed is: latex2015/results/4.4.2015.assembling/abyss/aby/
 
 Just copy and paste the next script...
 
-for k in 47 49 51 53 57 59 61 65 69 73; do abyss-pe k=$k name=aby_$k n=5 j=14 e=3 c=10 lib='pe1 pe2 pe3 pe4 pe5 pe6 pe7a pe7b pe8a pe8b pe9a pe9b pe10a pe10b pe11a pe12a p12b pe13a pe13b pe14a pe14b pe15a pe15b pe16a pe16b pe17a pe17b pe18a pe18b' pe1='/media/CurrentProjects/latex2015/data/s1_1.fq /media/CurrentProjects/latex2015/data/s1_2.fq' pe2='/media/CurrentProjects/latex2015/data/s2_1.fq /media/CurrentProjects/latex2015/data/s2_2.fq' \
-  pe3='/media/CurrentProjects/latex2015/data/s3_1.fq /media/CurrentProjects/latex2015/data/s3_2.fq' pe4='/media/CurrentProjects/latex2015/data/s4_1.fq /media/CurrentProjects/latex2015/data/s4_2.fq' \
-  pe5='/media/CurrentProjects/latex2015/data/s5_1.fq /media/CurrentProjects/latex2015/data/s5_2.fq' pe6='/media/CurrentProjects/latex2015/data/s6_1.fq /media/CurrentProjects/latex2015/data/s6_2.fq' \
-  pe7a='/media/CurrentProjects/latex2015/data/s7a_1.fq /media/CurrentProjects/latex2015/data/s7a_2.fq' pe7b='/media/CurrentProjects/latex2015/data/s7b_1.fq /media/CurrentProjects/latex2015/data/s7b_2.fq' \
-  pe8a='/media/CurrentProjects/latex2015/data/s8a_1.fq /media/CurrentProjects/latex2015/data/s8a_2.fq' pe8b='/media/CurrentProjects/latex2015/data/s8b_1.fq /media/CurrentProjects/latex2015/data/s8b_2.fq' \
-  pe9a='/media/CurrentProjects/latex2015/data/s9a_1.fq /media/CurrentProjects/latex2015/data/s9a_2.fq' pe9b='/media/CurrentProjects/latex2015/data/s9b_1.fq /media/CurrentProjects/latex2015/data/s9b_2.fq' \
-  pe10a='/media/CurrentProjects/latex2015/data/s10a_1.fq /media/CurrentProjects/latex2015/data/s10a_2.fq' pe10b='/media/CurrentProjects/latex2015/data/s10b_1.fq /media/CurrentProjects/latex2015/data/s10b_2.fq' \
-  pe11a='/media/CurrentProjects/latex2015/data/s11a_1.fq /media/CurrentProjects/latex2015/data/s11a_2.fq' pe11b='/media/CurrentProjects/latex2015/data/s11b_1.fq /media/CurrentProjects/latex2015/data/s11b_2.fq' \
-  pe12a='/media/CurrentProjects/latex2015/data/s12a_1.fq /media/CurrentProjects/latex2015/data/s12a_2.fq' pe12b='/media/CurrentProjects/latex2015/data/s12b_1.fq /media/CurrentProjects/latex2015/data/s12b_2.fq' \
-  pe13a='/media/CurrentProjects/latex2015/data/s13a_1.fq /media/CurrentProjects/latex2015/data/s13a_2.fq' pe13b='/media/CurrentProjects/latex2015/data/s13b_1.fq /media/CurrentProjects/latex2015/data/s13b_2.fq' \
-  pe14a='/media/CurrentProjects/latex2015/data/s14a_1.fq /media/CurrentProjects/latex2015/data/s14a_2.fq' pe14b='/media/CurrentProjects/latex2015/data/s14b_1.fq /media/CurrentProjects/latex2015/data/s14b_2.fq' \
-  pe15a='/media/CurrentProjects/latex2015/data/s15a_1.fq /media/CurrentProjects/latex2015/data/s15a_2.fq' pe15b='/media/CurrentProjects/latex2015/data/s15b_1.fq /media/CurrentProjects/latex2015/data/s15b_2.fq' \
-  pe16a='/media/CurrentProjects/latex2015/data/s16a_1.fq /media/CurrentProjects/latex2015/data/s16a_2.fq' pe16b='/media/CurrentProjects/latex2015/data/s16b_1.fq /media/CurrentProjects/latex2015/data/s16b_2.fq' \
-  pe17a='/media/CurrentProjects/latex2015/data/s17a_1.fq /media/CurrentProjects/latex2015/data/s17a_2.fq' pe17b='/media/CurrentProjects/latex2015/data/s17b_1.fq /media/CurrentProjects/latex2015/data/s17b_2.fq' \
-  pe18a='/media/CurrentProjects/latex2015/data/s18a_1.fq /media/CurrentProjects/latex2015/data/s18a_2.fq' pe18b='/media/CurrentProjects/latex2015/data/s18b_1.fq /media/CurrentProjects/latex2015/data/s18b_2.fq' 2>&1 | tee aby_$k\.log ; done &
+for k in 47 49 51 53 57 59 61 65 69 73; do abyss-pe k=$k name=aby_$k n=5 j=14 e=3 c=10 -k lib='pe1 pe2 pe3 pe4 pe5 pe6 pe7a pe7b pe8a pe8b pe9a pe9b pe10a pe10b pe11a pe12a pe13a pe13b pe14a pe14b pe15a pe15b pe16a pe16b pe17a pe17b pe18a pe18b' \
+pe1='/media/CurrentProjects/latex2015/data/s1_1.fq /media/CurrentProjects/latex2015/data/s1_2.fq' pe2='/media/CurrentProjects/latex2015/data/s2_1.fq /media/CurrentProjects/latex2015/data/s2_2.fq' \
+pe3='/media/CurrentProjects/latex2015/data/s3_1.fq /media/CurrentProjects/latex2015/data/s3_2.fq' pe4='/media/CurrentProjects/latex2015/data/s4_1.fq /media/CurrentProjects/latex2015/data/s4_2.fq' \
+pe5='/media/CurrentProjects/latex2015/data/s5_1.fq /media/CurrentProjects/latex2015/data/s5_2.fq' pe6='/media/CurrentProjects/latex2015/data/s6_1.fq /media/CurrentProjects/latex2015/data/s6_2.fq' \
+pe7a='/media/CurrentProjects/latex2015/data/s7a_1.fq /media/CurrentProjects/latex2015/data/s7a_2.fq' pe7b='/media/CurrentProjects/latex2015/data/s7b_1.fq /media/CurrentProjects/latex2015/data/s7b_2.fq' \
+pe8a='/media/CurrentProjects/latex2015/data/s8a_1.fq /media/CurrentProjects/latex2015/data/s8a_2.fq' pe8b='/media/CurrentProjects/latex2015/data/s8b_1.fq /media/CurrentProjects/latex2015/data/s8b_2.fq' \
+pe9a='/media/CurrentProjects/latex2015/data/s9a_1.fq /media/CurrentProjects/latex2015/data/s9a_2.fq' pe9b='/media/CurrentProjects/latex2015/data/s9b_1.fq /media/CurrentProjects/latex2015/data/s9b_2.fq' \
+pe10a='/media/CurrentProjects/latex2015/data/s10a_1.fq /media/CurrentProjects/latex2015/data/s10a_2.fq' pe10b='/media/CurrentProjects/latex2015/data/s10b_1.fq /media/CurrentProjects/latex2015/data/s10b_2.fq' \
+pe11a='/media/CurrentProjects/latex2015/data/s11a_1.fq /media/CurrentProjects/latex2015/data/s11a_2.fq' pe11b='/media/CurrentProjects/latex2015/data/s11b_1.fq /media/CurrentProjects/latex2015/data/s11b_2.fq' \
+pe12a='/media/CurrentProjects/latex2015/data/s12a_1.fq /media/CurrentProjects/latex2015/data/s12a_2.fq' pe12b='/media/CurrentProjects/latex2015/data/s12b_1.fq /media/CurrentProjects/latex2015/data/s12b_2.fq' \
+pe13a='/media/CurrentProjects/latex2015/data/s13a_1.fq /media/CurrentProjects/latex2015/data/s13a_2.fq' pe13b='/media/CurrentProjects/latex2015/data/s13b_1.fq /media/CurrentProjects/latex2015/data/s13b_2.fq' \
+pe14a='/media/CurrentProjects/latex2015/data/s14a_1.fq /media/CurrentProjects/latex2015/data/s14a_2.fq' pe14b='/media/CurrentProjects/latex2015/data/s14b_1.fq /media/CurrentProjects/latex2015/data/s14b_2.fq' \
+pe15a='/media/CurrentProjects/latex2015/data/s15a_1.fq /media/CurrentProjects/latex2015/data/s15a_2.fq' pe15b='/media/CurrentProjects/latex2015/data/s15b_1.fq /media/CurrentProjects/latex2015/data/s15b_2.fq' \
+pe16a='/media/CurrentProjects/latex2015/data/s16a_1.fq /media/CurrentProjects/latex2015/data/s16a_2.fq' pe16b='/media/CurrentProjects/latex2015/data/s16b_1.fq /media/CurrentProjects/latex2015/data/s16b_2.fq' \
+pe17a='/media/CurrentProjects/latex2015/data/s17a_1.fq /media/CurrentProjects/latex2015/data/s17a_2.fq' pe17b='/media/CurrentProjects/latex2015/data/s17b_1.fq /media/CurrentProjects/latex2015/data/s17b_2.fq' \
+pe18a='/media/CurrentProjects/latex2015/data/s18a_1.fq /media/CurrentProjects/latex2015/data/s18a_2.fq' pe18b='/media/CurrentProjects/latex2015/data/s18b_1.fq /media/CurrentProjects/latex2015/data/s18b_2.fq' 2>&1 | tee aby_$k\.log ; done &
  
+ 
+ PD.
+ 
+ this text at the end of the scripts: <2>&1 | tee> means that the output of the program (the verbose or screen anounsments of the program) will go to some file called always <file name>.log 
 
 Goto!
 #########################
-#		#
+#	13.05.2015	#
 #########################
+Now all the assemblings were done. We will use transabyss merge to merge all .fa files to one.
 
 
+Goto!
+
+#########################
+#	22.05.2015	#
+#########################
+to make select the best abyss assembling i execute:
+
+For unitigs analysis
+fac3.pl *3.fa   
+
+For Contigs analysis
+fac3.pl *8.fa
+
+best contigs and unitigs with k-mer 57, so to select the best contigs larger than 500pb i had to modify a bit the fasta file doing:
+
+sed 's/ /_/g' ./aby2/aby_57-3.fa > aby_53U.fa
+
+or even:
+
+sed -i 's/ /_/g' ./aby2/aby_57-8.fa
+
+Then i ran the following command to extract the best contigs
+
+sort_contigs.pl -p -m 500 -p -z ./aby2/aby_57-8.fa k57bestC.fa
+
+**
+n       n:100  n:N50  min    median    mean     N50      max      sum
+882028  408584 80996  100    113      188      182      9223     76.90e6   aby_57-3.fa
+843793  379036 57224  100    113      200      193      10392    76.15e6   aby_57-8.fa
+23976   23976  6835   406    955      1180     1366     10392    28.31e6   k57bestC.fa
+22198   22198  6587   500    788      987      1050     9223     21.91e6   k57bestU.fa
+**
+
+So in the new folder: ~/CurrentProjects/latex2015/results/gDE$
+
+I will use this k57bestC to do the diferential expresion job using trinity tools:
+
+making the reference:
+
+/home/unal2/Bin/trinityrnaseq-2.0.6/util/align_and_estimate_abundance.pl --transcripts k57bestC.fa --est_method RSEM --aln_method bowtie --prep_reference 
+
+to calculate the the expression
+
+/home/unal2/Bin/trinityrnaseq-2.0.6/util/align_and_estimate_abundance.pl --transcripts k57bestC.fa --seqType fq --left /media/CurrentProjects/latex2015/data/s1_1.fq --right /media/CurrentProjects/latex2015/data/s1_2.fq --est_method RSEM --aln_method bowtie
+
+
+Goto!
 #########################
 #		#
 #########################
